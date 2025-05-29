@@ -4,8 +4,14 @@ const index = (req, res) => {
     const sql = 'SELECT * FROM movies'
     connection.query(sql, (err, movieResult) => {
         if (err) return res.status(500).json({ error: `Database query failed` })
-
-        res.json(movieResult)
+        const movies = movieResult.map(movie => {
+            const obj = {
+                ...movie,
+                image: req.imagePath + movie.image
+            }
+            return obj
+        })
+        res.json(movies)
     })
 }
 
