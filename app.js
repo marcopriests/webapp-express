@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT
+
+const errorsHandler = require('./middlewares/errorsHandler')
+const notFound = require('./middlewares/notFound')
 
 app.use(express.static('public'))
 
@@ -11,6 +14,10 @@ app.get('/', (req, res) => {
 })
 
 // app.use('/posts', postRouter)
+
+app.use(errorsHandler)
+
+app.use(notFound)
 
 app.listen(port, () => {
     console.log(`Server is listening on port: ${port}`)
