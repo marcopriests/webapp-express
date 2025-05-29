@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT
 
+const movieRouter = require('./routers/movieRouter')
+
 const errorsHandler = require('./middlewares/errorsHandler')
 const notFound = require('./middlewares/notFound')
 
@@ -13,7 +15,7 @@ app.get('/', (req, res) => {
     res.send('Movies API server')
 })
 
-// app.use('/posts', postRouter)
+app.use('/movies', movieRouter)
 
 app.use(errorsHandler)
 
