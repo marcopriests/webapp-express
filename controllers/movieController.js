@@ -1,7 +1,12 @@
 const connection = require('../data/db')
 
 const index = (req, res) => {
-    res.send('Elenco film')
+    const sql = 'SELECT * FROM movies'
+    connection.query(sql, (err, movieResult) => {
+        if (err) res.status(500).json({ error: `Database query failed: ${err.message}` })
+
+        res.json(movieResult)
+    })
 }
 
 const show = (req, res) => {
