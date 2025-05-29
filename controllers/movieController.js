@@ -16,13 +16,23 @@ const index = (req, res) => {
 }
 
 const show = (req, res) => {
-    const sql = 'SELECT * FROM movies WHERE id = ?'
+    const movieSql = 'SELECT * FROM movies WHERE id = ?'
+    const reviewSql = 'SELECT * FROM reviews WHERE movie_id = ?'
     const { id } = req.params
-    connection.query(sql, [id], (err, movieResult) => {
+
+    connection.query(movieSql, [id], (err, movieResult) => {
         if (err) return res.status(500).json({ error: `Database query failed` })
         if (movieResult.length === 0) return res.status(404).json({ error: `Movie not found` })
 
-        res.json(movieResult)
+        const movie = movieResult[0]
+
+        connection.query(reviewSql, [id], (err, reviewResult) => {
+            if (err) return res.status(500).json({ error: `Database query failed` })
+
+            movie.reviews = reviewResult
+
+            res.json(movie)
+        })
     })
 }
 
