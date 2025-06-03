@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express()
+
+const cors = require('cors')
+
 const port = process.env.PORT
 
 const movieRouter = require('./routers/movieRouter')
@@ -7,6 +10,8 @@ const movieRouter = require('./routers/movieRouter')
 const errorsHandler = require('./middlewares/errorsHandler')
 const notFound = require('./middlewares/notFound')
 const imagePath = require('./middlewares/imagePath')
+
+app.use(cors({ origin: process.env.FE_APP }))
 
 app.use(express.static('public'))
 

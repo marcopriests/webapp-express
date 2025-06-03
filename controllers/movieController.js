@@ -18,10 +18,13 @@ const index = (req, res) => {
 const show = (req, res) => {
     const movieSql = 'SELECT * FROM movies WHERE id = ?'
     const reviewSql = 'SELECT * FROM reviews WHERE movie_id = ?'
+
+    const avgVote = 'SELECT M.*, ROUND(AVG(R.vote)) AS average_vote FROM movies M JOIN reviews R ON R.movie_id = M.id WHERE M.id = ?'
+
     const { id } = req.params
 
-    connection.query(movieSql, [id], (err, movieResult) => {
-        if (err) return res.status(500).json({ error: `Database query failed` })
+    connection.query(avgVote, [id], (err, movieResult) => {
+        if (err) return res.status(500).json({ error: `Database query failed ${err}` })
         if (movieResult.length === 0) return res.status(404).json({ error: `Movie not found` })
 
         const movie = movieResult[0]
