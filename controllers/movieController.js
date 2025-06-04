@@ -29,6 +29,8 @@ const show = (req, res) => {
 
         const movie = movieResult[0]
 
+        movie.image = req.imagePath + movie.image
+
         connection.query(reviewSql, [id], (err, reviewResult) => {
             if (err) return res.status(500).json({ error: `Database query failed` })
 
