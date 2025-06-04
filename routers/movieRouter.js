@@ -12,4 +12,6 @@ router.get('/:id', movieController.show)
 
 router.post('/', upload.single('image'), movieController.store)
 
+router.post('/:id/reviews', movieController.storeReview)
+
 module.exports = router
