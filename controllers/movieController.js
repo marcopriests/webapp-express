@@ -42,13 +42,13 @@ const show = (req, res) => {
 }
 
 const store = (req, res, next) => {
-    const { title, director, abstract } = req.body
+    const { title, director, genre, abstract } = req.body
 
-    const sql = 'INSERT INTO movies (title, director, abstract, image) VALUES (?,?,?,?)'
+    const sql = 'INSERT INTO movies (title, director, genre, abstract, image) VALUES (?, ?, ?, ?, ?)'
 
     const imageName = req.file.filename
 
-    connection.query(sql, [title, director, abstract, imageName], (err, result) => {
+    connection.query(sql, [title, director, genre, abstract, imageName], (err, result) => {
         if (err) { return next('Errore di caricamento') }
 
         res.status(201).json({
